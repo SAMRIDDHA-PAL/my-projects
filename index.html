@@ -1,0 +1,149 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Final - Different Ratings + Details</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}body{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;padding:16px}.container{max-width:620px;margin:0 auto}.header{text-align:center;padding:12px}.header h1{font-size:20px;font-weight:800;background:linear-gradient(90deg,#ff9a9e,#fecfef);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.card{background:rgba(255,255,255,0.08);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:20px;margin-top:14px}.label{font-weight:700;margin-bottom:10px;color:#ffd6ff}.option{display:flex;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px;margin:6px 0}.option input{accent-color:#ff6a88}.btn{width:100%;background:linear-gradient(90deg,#ff6a88,#ff8e53);border:none;color:#fff;font-weight:800;padding:12px;border-radius:10px;margin-top:12px}.badge{background:rgba(255,106,136,0.2);border:1px solid #ff6a88;color:#ffb3c6;padding:3px 7px;border-radius:12px;font-size:10px}.search{width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px;color:#fff;margin:6px 0}.item{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px;margin:5px 0;display:flex;justify-content:space-between;gap:6px}.item-title{font-weight:700;font-size:12px}.item-meta{font-size:9px;color:#c9c3ff;margin-top:3px;line-height:1.4}.stars{color:#ffd700;font-weight:800;font-size:10px;white-space:nowrap}.num{color:#ff8e53;font-weight:800;margin-right:3px}.hidden{display:none}
+</style></head><body><div class="container"><div class="header"><h1>Discover Your Favourites</h1><p style="color:#b8b5ff;font-size:11px">No Part/Vol - Different Ratings - Real Details</p></div>
+<div id="s1" class="card"><div class="label">Select Language</div>
+<label class="option"><input type="radio" name="lang" value="Bengali" checked><span>1. Bengali</span></label>
+<label class="option"><input type="radio" name="lang" value="English"><span>2. English</span></label>
+<label class="option"><input type="radio" name="lang" value="Hindi"><span>3. Hindi</span></label>
+<button class="btn" onclick="go2()">NEXT</button></div>
+<div id="s2" class="card hidden"><div class="label">Select Category</div>
+<label class="option"><input type="radio" name="cat" value="Movie" checked><span>1. Movie</span></label>
+<label class="option"><input type="radio" name="cat" value="Book"><span>2. Book</span></label>
+<label class="option"><input type="radio" name="cat" value="Music"><span>3. Music</span></label>
+<button class="btn" onclick="go3()">SHOW RESULT</button></div>
+<div id="s3" class="card hidden"><div style="display:flex;justify-content:space-between"><div class="label" id="rt" style="margin:0"></div><div class="badge" id="rc"></div></div>
+<input id="q" class="search" placeholder="Search title, author, director..." oninput="doSearch()"><div id="list"></div>
+<button class="btn" style="background:rgba(255,255,255,0.1)" onclick="location.reload()">Start Again</button></div></div>
+<script>
+const DB={
+"Bengali-Book":[
+{t:"Adarsha Hindu Hotel",a:"Bibhutibhushan Bandyopadhyay",g:"Classic",r:"4.9"},
+{t:"Anandamath",a:"Bankim Chandra Chattopadhyay",g:"Patriotic",r:"4.8"},
+{t:"Aparajito",a:"Bibhutibhushan Bandyopadhyay",g:"Classic",r:"4.7"},
+{t:"Aranyak",a:"Bibhutibhushan Bandyopadhyay",g:"Classic",r:"4.9"},
+{t:"Bakul Katha",a:"Ashapurna Devi",g:"Classic",r:"4.6"},
+{t:"Balaka",a:"Rabindranath Tagore",g:"Poetry",r:"4.5"},
+{t:"Boro Didi",a:"Sarat Chandra Chattopadhyay",g:"Classic",r:"4.6"},
+{t:"Byomkesh Somogro",a:"Sharadindu Bandyopadhyay",g:"Detective",r:"4.8"},
+{t:"Chander Pahar",a:"Bibhutibhushan Bandyopadhyay",g:"Adventure",r:"4.9"},
+{t:"Chandrahaas (Part-1,2,3,4)",a:"Sourav Chakravarty",g:"Thriller",r:"4.0"},
+{t:"Chokher Bali",a:"Rabindranath Tagore",g:"Romantic",r:"4.7"},
+{t:"Compass",a:"Smaranjit Chakraborty",g:"Romantic",r:"4.7"},
+{t:"Devdas",a:"Sarat Chandra Chattopadhyay",g:"Romantic",r:"4.6"},
+{t:"Feluda Somogro 1",a:"Satyajit Ray",g:"Detective",r:"5.0"},
+{t:"Feluda Somogro 2",a:"Satyajit Ray",g:"Detective",r:"5.0"},
+{t:"Ghare-Baire",a:"Rabindranath Tagore",g:"Classic",r:"4.8"},
+{t:"Gitanjali",a:"Rabindranath Tagore",g:"Poetry",r:"5.0"},
+{t:"Gora",a:"Rabindranath Tagore",g:"Classic",r:"4.7"},
+{t:"Heruk",a:"Soumitra Biswas",g:"Thriller",r:"4.9"},
+{t:"Kaalbela",a:"Samaresh Majumdar",g:"Political",r:"4.8"},
+{t:"Kapalkundala",a:"Bankim Chandra Chattopadhyay",g:"Romantic",r:"4.6"},
+{t:"Kathakali Kothay",a:"Avishek Chattopadhyay",g:"Thriller",r:"4.8"},
+{t:"Moyna Bolo Krishna Radhe",a:"Avishek Chattopadhyay",g:"Thriller",r:"5.0"},
+{t:"Mritokaitabh (Part-1,2,3)",a:"Sourav Chakravarty",g:"Thriller",r:"4.0"},
+{t:"Myao",a:"Avishek Chattopadhyay",g:"Thriller",r:"5.0"},
+{t:"Padma Nadir Majhi",a:"Manik Bandyopadhyay",g:"Classic",r:"4.7"},
+{t:"Pather Panchali",a:"Bibhutibhushan Bandyopadhyay",g:"Classic",r:"4.9"},
+{t:"Raktokorobi Murders",a:"Koushik Das",g:"Thriller",r:"5.0"},
+{t:"Sei Somoy",a:"Sunil Gangopadhyay",g:"Historical",r:"4.8"},
+{t:"Sesher Kobita",a:"Rabindranath Tagore",g:"Romantic",r:"4.9"}
+].sort((a,b)=>a.t.localeCompare(b.t)),
+"Bengali-Movie":[
+{t:"Pather Panchali",d:"Satyajit Ray",c:"Kanu Banerjee, Karuna Banerjee",g:"Classic",r:"4.9"},
+{t:"Sonar Kella",d:"Satyajit Ray",c:"Soumitra Chatterjee, Santosh Dutta",g:"Detective",r:"4.8"},
+{t:"Belaseshe",d:"Shiboprosad Mukherjee & Nandita Roy",c:"Soumitra Chatterjee, Swatilekha Sengupta",g:"Family",r:"4.7"},
+{t:"Baishe Srabon",d:"Srijit Mukherji",c:"Prosenjit Chatterjee, Parambrata",g:"Thriller",r:"4.6"},
+{t:"Bohurupi",d:"Shiboprosad & Nandita",c:"Shiboprosad Mukherjee, Koushani Mukherjee, Abir Chatterjee, Ritabhari Chakraborty",g:"Thriller",r:"5.0"},
+{t:"Bohurupi: The Golden Daku",d:"Shiboprosad & Nandita",c:"Shiboprosad Mukherjee, Koushani Mukherjee, Jishu Sengupta, Sohini Sarkar",g:"Thriller",r:"5.0"},
+{t:"Chander Pahar",d:"Kamaleshwar Mukherjee",c:"Dev, Gerard Rudolf",g:"Adventure",r:"4.5"},
+{t:"Raktabeej",d:"Shiboprosad & Nandita",c:"Abir Chatterjee, Mimi Chakraborty",g:"Thriller",r:"5.0"},
+{t:"Raktabeej 2",d:"Shiboprosad & Nandita",c:"Abir Chatterjee, Mimi Chakraborty",g:"Thriller",r:"5.0"},
+{t:"Rasagolla",d:"Pavel",c:"Ujaan Ganguli, Abantika Biswas",g:"Romantic",r:"5.0"},
+{t:"The Eken: Benarase Bibhishika",d:"Joydeep Mukherjee",c:"Anirban Chakraborty, Suhotro Mukherjee, Somak Ghosh",g:"Detective",r:"5.0"},
+{t:"The Eken: Darjeeling Jomjomat",d:"Joydeep Mukherjee",c:"Anirban Chakraborty, Suhotro Mukherjee, Somak Ghosh",g:"Detective",r:"5.0"},
+{t:"The Eken: Keralay Kurukshetra",d:"Joydeep Mukherjee",c:"Anirban Chakraborty, Suhotro Mukherjee, Somak Ghosh",g:"Detective",r:"5.0"},
+{t:"The Eken: Ruddhaswas Rajasthan",d:"Joydeep Mukherjee",c:"Anirban Chakraborty, Suhotro Mukherjee, Somak Ghosh",g:"Detective",r:"5.0"},
+{t:"Tonic",d:"Avijit Sen",c:"Paran Bandopadhyay, Dev, Shakuntala Barua",g:"Family",r:"4.7"},
+{t:"Pradhan",d:"Avijit Sen",c:"Dev, Paran Bandopadhyay, Anirban Chakrabarti",g:"Political",r:"4.6"},
+{t:"Dawshom Awbotaar",d:"Srijit Mukherji",c:"Prosenjit, Jisshu Sengupta, Jaya Ahsan",g:"Thriller",r:"4.5"},
+{t:"Vinci Da",d:"Srijit Mukherji",c:"Rudranil Ghosh, Ritwick Chakraborty",g:"Thriller",r:"4.6"},
+{t:"Praktan",d:"Shiboprosad & Nandita",c:"Prosenjit, Rituparna Sengupta",g:"Romantic",r:"4.8"}
+].sort((a,b)=>a.t.localeCompare(b.t)),
+"Bengali-Music":[
+{t:"Aaj Sarabela",s:"Shreya Ghoshal",al:"Bohurupi Film",m:"Romantic",r:"5.0"},
+{t:"Dakatiya Bashi",s:"Shrestha Das, Nonichora Das Baul",al:"Bohurupi Film",m:"Item",r:"5.0"},
+{t:"Tumi Robe Nirobe",s:"Hemanta Mukherjee",al:"Rabindra Sangeet",m:"Soulful",r:"4.9"},
+{t:"Bojhena Se Bojhena",s:"Arijit Singh",al:"Bojhena Se Bojhena Film",m:"Romantic",r:"4.8"},
+{t:"Ekla Cholo Re",s:"Rabindranath Tagore",al:"Gitabitan",m:"Inspirational",r:"5.0"},
+{t:"Amar Paran Jaha Chay",s:"Rabindranath Tagore",al:"Gitabitan",m:"Romantic",r:"4.7"},
+{t:"Karar Oi Louho Kopat",s:"Kazi Nazrul Islam",al:"Nazrul Geeti",m:"Revolutionary",r:"4.8"},
+{t:"Beche Thakar Gaan",s:"Rupam Islam",al:"Fossils",m:"Motivational",r:"4.6"},
+{t:"Amake Amar Moto Thakte Dao",s:"Anupam Roy",al:"Autograph",m:"Philosophical",r:"4.7"}
+].sort((a,b)=>a.t.localeCompare(b.t)),
+"Hindi-Book":[
+{t:"Godan",a:"Munshi Premchand",g:"Classic",r:"4.9"},
+{t:"Gaban",a:"Munshi Premchand",g:"Classic",r:"4.6"},
+{t:"Madhushala",a:"Harivansh Rai Bachchan",g:"Poetry",r:"4.8"},
+{t:"Raag Darbari",a:"Shrilal Shukla",g:"Satire",r:"4.5"},
+{t:"Gunaho Ka Devta",a:"Dharamvir Bharati",g:"Romantic",r:"4.7"}
+].sort((a,b)=>a.t.localeCompare(b.t)),
+"Hindi-Movie":[
+{t:"3 Idiots",d:"Rajkumar Hirani",c:"Aamir Khan, Kareena Kapoor, R Madhavan",g:"Comedy",r:"4.9"},
+{t:"Sholay",d:"Ramesh Sippy",c:"Amitabh Bachchan, Dharmendra, Hema Malini",g:"Action",r:"4.8"},
+{t:"DDLJ",d:"Aditya Chopra",c:"Shah Rukh Khan, Kajol",g:"Romantic",r:"4.7"},
+{t:"Dangal",d:"Nitesh Tiwari",c:"Aamir Khan, Sakshi Tanwar, Fatima Sana",g:"Biography",r:"4.8"},
+{t:"Andhadhun",d:"Sriram Raghavan",c:"Ayushmann Khurrana, Tabu, Radhika Apte",g:"Thriller",r:"4.6"}
+].sort((a,b)=>a.t.localeCompare(b.t)),
+"Hindi-Music":[
+{t:"Tum Hi Ho",s:"Arijit Singh",al:"Aashiqui 2",m:"Romantic",r:"4.9"},
+{t:"Kesariya",s:"Arijit Singh",al:"Brahmastra",m:"Romantic",r:"4.7"},
+{t:"Chaiyya Chaiyya",s:"Sukhwinder Singh",al:"Dil Se",m:"Energetic",r:"4.8"},
+{t:"Kal Ho Naa Ho",s:"Sonu Nigam",al:"Kal Ho Naa Ho",m:"Sad",r:"4.6"},
+{t:"Mitwa",s:"Shankar Mahadevan",al:"Kabhi Alvida Naa Kehna",m:"Soulful",r:"4.5"},
+{t:"Kanha",s:"Shreya Ghoshal",al:"Binodini Film",m:"Romantic",r:"5.0"},
+{t:"Main Aagar Kahun",s:"Shreya Ghoshal, Sonu Nigam",al:"Om Shanti Om Film",m:"Romantic",r:"5.0"},
+{t:"Pyar Ki Ek Kahani",s:"Shreya Ghoshal, Sonu Nigam",al:"Krish Film",m:"Romantic",r:"5.0"},
+].sort((a,b)=>a.t.localeCompare(b.t)),
+"English-Book":[
+{t:"1984",a:"George Orwell",g:"Dystopian",r:"4.9"},
+{t:"The Alchemist",a:"Paulo Coelho",g:"Philosophical",r:"4.7"},
+{t:"Harry Potter",a:"J.K. Rowling",g:"Fantasy",r:"4.8"},
+{t:"To Kill a Mockingbird",a:"Harper Lee",g:"Classic",r:"4.9"},
+{t:"Sapiens",a:"Yuval Noah Harari",g:"History",r:"4.6"},
+{t:"Sherlock Holmes",a:"Arthur Conan Doyle",g:"Detective",r:"5.0"},
+{t:"And Then There Were None",a:"Agatha Christie",g:"Thriller",r:"5.0"}
+].sort((a,b)=>a.t.localeCompare(b.t)),
+"English-Movie":[
+{t:"The Shawshank Redemption",d:"Frank Darabont",c:"Tim Robbins, Morgan Freeman",g:"Drama",r:"4.9"},
+{t:"The Godfather",d:"Francis Ford Coppola",c:"Marlon Brando, Al Pacino",g:"Crime",r:"4.8"},
+{t:"Inception",d:"Christopher Nolan",c:"Leonardo DiCaprio, Joseph Gordon",g:"Sci-Fi",r:"4.7"},
+{t:"Titanic",d:"James Cameron",c:"Leonardo DiCaprio, Kate Winslet",g:"Romantic",r:"4.6"},
+{t:"Interstellar",d:"Christopher Nolan",c:"Matthew McConaughey, Anne Hathaway",g:"Sci-Fi",r:"4.8"}
+].sort((a,b)=>a.t.localeCompare(b.t)),
+"English-Music":[
+{t:"Perfect",s:"Ed Sheeran",al:"Divide",m:"Romantic",r:"4.9"},
+{t:"Bohemian Rhapsody",s:"Queen",al:"A Night at the Opera",m:"Epic",r:"4.8"},
+{t:"Yellow",s:"Coldplay",al:"Parachutes",m:"Romantic",r:"4.6"},
+{t:"Blinding Lights",s:"The Weeknd",al:"After Hours",m:"Energetic",r:"4.7"},
+{t:"Imagine",s:"John Lennon",al:"Imagine",m:"Inspirational",r:"4.5"}
+].sort((a,b)=>a.t.localeCompare(b.t))
+};
+let cur=[],curKey="";
+function getSel(n){return document.querySelector(`input[name="${n}"]:checked`).value}
+function go2(){document.getElementById('s1').classList.add('hidden');document.getElementById('s2').classList.remove('hidden');}
+function go3(){
+const lang=getSel('lang'),cat=getSel('cat'),key=lang+"-"+cat;curKey=key;cur=DB[key]||[];
+document.getElementById('s2').classList.add('hidden');document.getElementById('s3').classList.remove('hidden');
+document.getElementById('rt').innerText=lang+" "+cat+" List";document.getElementById('rc').innerText=cur.length+" titles - A-Z - 1,2,3...";
+render(cur);
+}
+function render(list){
+let html="";for(let i=0;i<list.length;i++){let x=list[i];let meta="";
+if(curKey.includes("Book")) meta=`Author: ${x.a}<br>Genre: ${x.g}`;
+else if(curKey.includes("Movie")) meta=`Director: ${x.d}<br>Cast: ${x.c}<br>Genre: ${x.g}`;
+else meta=`Singer: ${x.s}<br>Album/Movie: ${x.al}<br>Mood: ${x.m}`;
+html+=`<div class="item"><div><div class="item-title"><span class="num">${i+1}.</span>${x.t}</div><div class="item-meta">${meta}</div></div><div class="stars">★ ${x.r}</div></div>`;
+}document.getElementById('list').innerHTML=html;
+}
+function doSearch(){let q=document.getElementById('q').value.toLowerCase();if(!q){render(cur);return;}let f=cur.filter(x=> (x.t+" "+(x.a||x.d||x.s||"")).toLowerCase().includes(q));render(f);document.getElementById('rc').innerText=f.length+" found";}
+</script></body></html>
